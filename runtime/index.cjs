@@ -32,11 +32,15 @@ const sign = p => {
   const key=keyFor(p.mnemonic)
   try {
     if (addressFor(key)!==p.fromAddress) throw new Error('Signing key does not match the source address')
-    if (!Number.isSafeInteger(p.height)||p.height<3364600) throw new Error('A current Zcash NU6.2 network height is required')
+    if (!Number.isSafeInteger(p.height)||p.height<3428143||p.height>0xffffffff-20) throw new Error('A current Zcash NU6.3 network height is required')
     const selected=plan(p)
     if (p.sendMax && p.amountCoin!==selected.amountCoin) throw new Error('MAX amount changed; review it again before confirming')
     const builder=u.bitgo.createTransactionBuilderForNetwork(network)
-    builder.setDefaultsForVersion(network,u.bitgo.ZcashTransaction.VERSION5_BRANCH_NU6_2)
+    // ZIP-229 retains v5 and ZIP-244 under NU6.3. The SDK's newest named
+    // branch is NU6.2, so set the current mainnet branch explicitly (ZIP-258).
+    builder.setVersion(5)
+    builder.setVersionGroupId(0x26a7270a)
+    builder.setConsensusBranchId(0x37a5165b)
     builder.setExpiryHeight(p.height+20)
     const prevScript=script(p.fromAddress)
     for(const row of selected.selected) builder.addInput(row.txid,row.outputIndex,0xffffffff,prevScript)
