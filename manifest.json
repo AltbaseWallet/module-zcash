@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "abiVersion": 1,
+  "id": "zcash",
+  "name": "Zcash",
+  "ticker": "ZEC",
+  "version": "0.1.9",
+  "kind": "utxo",
+  "networkId": "zcash-mainnet",
+  "decimals": 8,
+  "capabilities": [],
+  "runtime": {
+    "type": "legacy"
+  },
+  "nativeRoute": "zcash-sdk",
+  "coin": {
+    "id": "zcash",
+    "name": "Zcash",
+    "ticker": "ZEC",
+    "networkId": "zcash-mainnet",
+    "supportsMemo": false,
+    "satsPerCoin": 100000000,
+    "walletEngine": "zcash-utxo",
+    "utxoReadProfile": "electrum"
+  },
+  "icon": "icon.svg"
+}
